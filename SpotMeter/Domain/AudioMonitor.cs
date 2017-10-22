@@ -43,12 +43,17 @@ namespace SpotMeter.Domain
         /// <summary>
         /// Number of quantum events processed until a second is computed
         /// </summary>
-        private int _cumulativeReads;
+        private ulong _cumulativeReads;
 
         /// <summary>
         /// The average of the last second cumulative data
         /// </summary>
         private double _lastSecondAverage;
+
+        /// <summary>
+        /// Indicates if the audio monitoring is running
+        /// </summary>
+        public bool IsMonitoring { get; private set; }
 
         /// <summary>
         /// Raised when something happens in the class
@@ -86,7 +91,7 @@ namespace SpotMeter.Domain
             CreateAudioDeviceInputNodeResult deviceInputNodeResult = await _graph.CreateDeviceInputNodeAsync(MediaCategory.Other, deviceEncodingProperties);
             if (deviceInputNodeResult.Status != AudioDeviceNodeCreationStatus.Success)
             {
-                OnNotify?.Invoke($"Input device configuration error {result.Status}");
+                OnNotify?.Invoke($"Input device configuration error {deviceInputNodeResult.Status}");
                 return false;
             }
             _deviceInputNode = deviceInputNodeResult.DeviceInputNode;
@@ -101,6 +106,9 @@ namespace SpotMeter.Domain
             // Initialize the control variables to ensure an average based on one second of data
             ResetCumulativeVariables();
             _lastSecondAverage = 0;
+
+            IsMonitoring = true;
+            _graph.Start();
 
             OnNotify?.Invoke("Audio monitoring initiated");
 
@@ -118,6 +126,9 @@ namespace SpotMeter.Domain
                 _graph.Dispose();
                 _graph = null;
             }
+
+            IsMonitoring = false;
+            OnNotify?.Invoke("Audio monitoring ended");
         }
 
         /// <summary>
@@ -164,7 +175,7 @@ namespace SpotMeter.Domain
                     // Increment the cumulative variables
                     _cumulativeAverage += avg;
                     _cumulativeMilliseconds += frame.Duration?.TotalMilliseconds ?? 0;
-                    _cumulativeReads++;
+                    _cumulativeReads += dataInLenght;
 
                     // Compute the second average when enough data is added
                     if (_cumulativeMilliseconds >= 1000)
