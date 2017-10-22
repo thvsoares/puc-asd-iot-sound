@@ -8,6 +8,14 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <TextBox HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Name="SpotifyKey" PlaceholderText="Spotfy key" Width="315" />
+        <Slider HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="315" Minimum="0" Maximum="100" Name="Volume"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,195,0,0" TextWrapping="Wrap" Text="Current noise level" VerticalAlignment="Top"/>
+        <Slider HorizontalAlignment="Left" Margin="10,213,0,0" VerticalAlignment="Top" Width="315" Minimum="0" Maximum="100" Name="NoiseLevel" ManipulationMode="System" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False" />
+        <TextBlock HorizontalAlignment="Left" Margin="10,125,0,0" TextWrapping="Wrap" Text="Min noise level" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="224,125,0,0" TextWrapping="Wrap" Text="Max noise level" VerticalAlignment="Top"/>
+        <Slider HorizontalAlignment="Left" Margin="10,151,0,0" VerticalAlignment="Top" Width="145" Minimum="0" Maximum="100" Name="MinNoiseLevel" ManipulationMode="System" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False" />
+        <Slider HorizontalAlignment="Left" Margin="180,151,0,0" VerticalAlignment="Top" Width="145" Minimum="0" Maximum="100" Name="MaxNoiseLevel" Value="70" ManipulationMode="System" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False" />
     </Grid>
 </Page>

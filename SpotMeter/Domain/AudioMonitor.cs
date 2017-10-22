@@ -170,6 +170,9 @@ namespace SpotMeter.Domain
                     if (_cumulativeMilliseconds >= 1000)
                     {
                         secondAverage = _cumulativeAverage / _cumulativeReads;
+                        // Normalize the signal to a max of 1
+                        if (secondAverage > 1)
+                            secondAverage = 1;
                         ResetCumulativeVariables();
                     }
                 }
