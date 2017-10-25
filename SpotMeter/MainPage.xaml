@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBox HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Name="SpotifyKey" PlaceholderText="Spotfy key" Width="315" />
+        <TextBox HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Name="SpotifyKey" PlaceholderText="Spotfy key" Width="315" TextChanged="SpotifyKey_TextChanged" />
         <Slider HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="315" Minimum="0" Maximum="100" Name="Volume" Value="50"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Volume" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,195,0,0" TextWrapping="Wrap" Text="Current noise level" VerticalAlignment="Top" />

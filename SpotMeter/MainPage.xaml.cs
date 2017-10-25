@@ -14,6 +14,7 @@ namespace SpotMeter
     public sealed partial class MainPage : Page
     {
         private AudioMonitor _monitor;
+        private SpotifyVolumeController _spotifyVolumeController;
 
         public MainPage()
         {
@@ -21,9 +22,10 @@ namespace SpotMeter
             _monitor = new AudioMonitor();
             _monitor.OnNotify += Monitor_OnNotify;
             _monitor.OnAverageLevelChanged += Monitor_OnAverageLevelChanged;
+            _spotifyVolumeController = new SpotifyVolumeController();
         }
 
-        private void ChangeVolume(double noiseLevel)
+        private async void ChangeVolume(double noiseLevel)
         {
             // Normalize the noise value
             if (MinNoiseLevel.Value != 0 || MaxNoiseLevel.Value != 100)
@@ -45,12 +47,18 @@ namespace SpotMeter
             if (Volume.Value + Delta.Value < noiseLevel)
             {
                 if (Volume.Value < 100)
+                {
                     Volume.Value++;
+                    await _spotifyVolumeController.SetVolume(Convert.ToByte(Volume.Value));
+                }
             }
             else if (Volume.Value - Delta.Value > noiseLevel)
             {
                 if (Volume.Value > 0)
+                {
                     Volume.Value--;
+                    await _spotifyVolumeController.SetVolume(Convert.ToByte(Volume.Value));
+                }
             }
         }
 
@@ -91,6 +99,11 @@ namespace SpotMeter
                 ToggleMonitor.Label = "Stop monitor";
                 await _monitor.Start();
             }
+        }
+
+        private void SpotifyKey_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _spotifyVolumeController.Token = SpotifyKey.Text;
         }
     }
 }
